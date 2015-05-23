@@ -4,7 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 import unittest
 
 
-class TestPhp4dvd(unittest.TestCase):
+class AddFilm(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(10)
@@ -12,7 +12,7 @@ class TestPhp4dvd(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_number3(self):
+    def test_addfilm(self):
         driver = self.driver
         driver.get(self.base_url + "php4dvd/")
         driver.find_element_by_id("username").clear()
@@ -20,6 +20,19 @@ class TestPhp4dvd(unittest.TestCase):
         driver.find_element_by_name("password").clear()
         driver.find_element_by_name("password").send_keys("admin")
         driver.find_element_by_name("submit").click()
+        driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
+        driver.find_element_by_id("imdbsearch").clear()
+        driver.find_element_by_id("imdbsearch").send_keys("sun")
+        driver.find_element_by_css_selector("input[type=\"submit\"]").click()
+        driver.find_element_by_link_text(u"Солнце").click()
+        driver.find_element_by_name("aka").clear()
+        driver.find_element_by_name("aka").send_keys(u"Пекло")
+        driver.find_element_by_id("own_no").click()
+        driver.find_element_by_id("seen_no").click()
+        driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
+        driver.find_element_by_id("submit").click()
+        driver.find_element_by_link_text("Log out").click()
+        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
 
     def is_element_present(self, how, what):
         try:
