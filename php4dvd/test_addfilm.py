@@ -33,7 +33,6 @@ class AddFilm(unittest.TestCase):
         driver.find_element_by_id("seen_no").click()
         driver.find_element_by_id("cover").send_keys("/home/bsam/selenium-py-training-samorodov/php4dvd/img/the_sun.jpg")
         driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
-        driver.find_element_by_id("submit").click()
         driver.find_element_by_link_text("Home").click()
         driver.find_element_by_link_text("Log out").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
