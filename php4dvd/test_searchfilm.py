@@ -24,7 +24,7 @@ class searchFilm(unittest.TestCase):
 
         # search a film which does present
         driver.find_element_by_id("q").clear()
-        driver.find_element_by_id("q").send_keys(u"Вос")
+        driver.find_element_by_id("q").send_keys(u"вос")
         driver.find_element_by_id("q").send_keys(Keys.RETURN)
         results = driver.find_element_by_id("results")
         if not results.find_elements_by_class_name("title"):
