@@ -54,9 +54,6 @@ class AddFilm(unittest.TestCase):
         driver.find_element_by_link_text("Log out").click()
         self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
 
-# submit form:
-# element.send_keys(keys.RETURN)
-
     def is_element_present(self, how, what):
         try:
             self.driver.find_element(by=how, value=what)
