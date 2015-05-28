@@ -7,20 +7,20 @@ import unittest
 
 class searchFilm(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(capabilities={'native_events':True})
         self.driver.implicitly_wait(10)
         self.base_url = "http://hub.wart.ru/"
         self.verificationErrors = []
         self.accept_next_alert = True
+        self.driver.get(self.base_url + "php4dvd/")
+        self.driver.find_element_by_id("username").clear()
+        self.driver.find_element_by_id("username").send_keys("admin")
+        self.driver.find_element_by_name("password").clear()
+        self.driver.find_element_by_name("password").send_keys("admin")
+        self.driver.find_element_by_name("submit").click()
 
     def test_searchfilm(self):
         driver = self.driver
-        driver.get(self.base_url + "php4dvd/")
-        driver.find_element_by_id("username").clear()
-        driver.find_element_by_id("username").send_keys("admin")
-        driver.find_element_by_name("password").clear()
-        driver.find_element_by_name("password").send_keys("admin")
-        driver.find_element_by_name("submit").click()
 
         # search a film which does present
         driver.find_element_by_id("q").clear()
@@ -37,11 +37,6 @@ class searchFilm(unittest.TestCase):
         results = driver.find_element_by_id("results")
         if not results.find_elements_by_class_name("content"):
             self.fail("Movies found")
-
-        # finish our tests
-        driver.find_element_by_link_text("Log out").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
-
 
     def is_element_present(self, how, what):
         try:
@@ -63,6 +58,8 @@ class searchFilm(unittest.TestCase):
             self.accept_next_alert = True
 
     def tearDown(self):
+        self.driver.find_element_by_link_text("Log out").click()
+        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
