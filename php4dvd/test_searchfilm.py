@@ -2,6 +2,9 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.expected_conditions import *
+from selenium.webdriver.common.by import By
 import unittest
 
 
@@ -19,24 +22,25 @@ class searchFilm(unittest.TestCase):
         self.driver.find_element_by_name("password").send_keys("admin")
         self.driver.find_element_by_name("submit").click()
 
-    def test_searchfilm(self):
+    def test_search_existing_film(self):
         driver = self.driver
-
-        # search a film which does present
         driver.find_element_by_id("q").clear()
         driver.find_element_by_id("q").send_keys(u"вос")
         driver.find_element_by_id("q").send_keys(Keys.RETURN)
-        results = driver.find_element_by_id("results")
+        wait = WebDriverWait(driver, 10)
+        results = wait.until(presence_of_element_located((By.ID, "results")))
         if not results.find_elements_by_class_name("title"):
             self.fail("Movie not found")
 
-        # search a film which does not present
+    def test_search_film_not_present(self):
+        driver = self.driver
         driver.find_element_by_id("q").clear()
         driver.find_element_by_id("q").send_keys("Test film")
         driver.find_element_by_id("q").send_keys(Keys.RETURN)
-        results = driver.find_element_by_id("results")
-        if not results.find_elements_by_class_name("content"):
-            self.fail("Movies found")
+        wait = WebDriverWait(driver, 10)
+        results = wait.until(presence_of_element_located((By.ID, "results")))
+        assert driver.find_element_by_class_name("content"
+          ).get_attribute("textContent") == "No movies where found."
 
     def is_element_present(self, how, what):
         try:
