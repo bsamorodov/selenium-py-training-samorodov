@@ -18,10 +18,6 @@ class AddFilm(unittest.TestCase):
         self.driver.find_element_by_name("password").send_keys("admin")
         self.driver.find_element_by_name("submit").click()
 
-    def test_login(self):
-        driver = self.driver
-        driver.find_element_by_id("q")
-
     def test_addfilm(self):
         driver = self.driver
 
