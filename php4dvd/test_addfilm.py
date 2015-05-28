@@ -5,28 +5,25 @@ import unittest
 
 
 class AddFilm(unittest.TestCase):
-    def login(self, driver):
-        driver.get(self.base_url + "php4dvd/")
-        driver.find_element_by_id("username").clear()
-        driver.find_element_by_id("username").send_keys("admin")
-        driver.find_element_by_name("password").clear()
-        driver.find_element_by_name("password").send_keys("admin")
-        driver.find_element_by_name("submit").click()
-
-    def logout(self, driver):
-        driver.find_element_by_link_text("Log out").click()
-        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
-
     def setUp(self):
         self.driver = webdriver.Firefox(capabilities={'native_events':True})
         self.driver.implicitly_wait(10)
         self.base_url = "http://hub.wart.ru/"
         self.verificationErrors = []
         self.accept_next_alert = True
+        self.driver.get(self.base_url + "php4dvd/")
+        self.driver.find_element_by_id("username").clear()
+        self.driver.find_element_by_id("username").send_keys("admin")
+        self.driver.find_element_by_name("password").clear()
+        self.driver.find_element_by_name("password").send_keys("admin")
+        self.driver.find_element_by_name("submit").click()
+
+    def test_login(self):
+        driver = self.driver
+        driver.find_element_by_id("q")
 
     def test_addfilm(self):
         driver = self.driver
-        self.login(driver)
 
         # try to insert a film without a required field "year"
         driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
@@ -56,8 +53,6 @@ class AddFilm(unittest.TestCase):
         driver.find_element_by_id("cover").send_keys("/home/bsam/selenium-py-training-samorodov/php4dvd/img/the_sun.jpg")
         driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
 
-        self.logout(driver)
-
     def is_element_present(self, how, what):
         try:
             self.driver.find_element(by=how, value=what)
@@ -78,6 +73,8 @@ class AddFilm(unittest.TestCase):
             self.accept_next_alert = True
 
     def tearDown(self):
+        self.driver.find_element_by_link_text("Log out").click()
+        self.assertRegexpMatches(self.close_alert_and_get_its_text(), r"^Are you sure you want to log out[\s\S]$")
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
