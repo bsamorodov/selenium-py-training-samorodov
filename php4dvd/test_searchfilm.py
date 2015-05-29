@@ -39,8 +39,11 @@ class searchFilm(unittest.TestCase):
         driver.find_element_by_id("q").send_keys(Keys.RETURN)
         wait = WebDriverWait(driver, 10)
         results = wait.until(presence_of_element_located((By.ID, "results")))
-        assert driver.find_element_by_class_name("content"
-          ).get_attribute("textContent") == "No movies where found."
+        if self.is_element_present(By.CLASS_NAME, "content"):
+            assert driver.find_element_by_class_name("content"
+                ).get_attribute("textContent") == "No movies where found."
+        else:
+            self.fail("Movie found")
 
     def is_element_present(self, how, what):
         try:
