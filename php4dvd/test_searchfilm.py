@@ -28,7 +28,8 @@ class searchFilm(unittest.TestCase):
         driver.find_element_by_id("q").send_keys(u"вос")
         driver.find_element_by_id("q").send_keys(Keys.RETURN)
         wait = WebDriverWait(driver, 10)
-        results = wait.until(presence_of_element_located((By.ID, "results")))
+        wait.until(invisibility_of_element_located((By.ID, "loading")))
+        results = driver.find_element_by_id("results")
         if not results.find_elements_by_class_name("title"):
             self.fail("Movie not found")
 
@@ -38,7 +39,8 @@ class searchFilm(unittest.TestCase):
         driver.find_element_by_id("q").send_keys("Test film")
         driver.find_element_by_id("q").send_keys(Keys.RETURN)
         wait = WebDriverWait(driver, 10)
-        results = wait.until(presence_of_element_located((By.ID, "results")))
+        wait.until(invisibility_of_element_located((By.ID, "loading")))
+        results = driver.find_element_by_id("results")
         if self.is_element_present(By.CLASS_NAME, "content"):
             assert driver.find_element_by_class_name("content"
                 ).get_attribute("textContent") == "No movies where found."
