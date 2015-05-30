@@ -29,28 +29,16 @@ class AddFilm(unittest.TestCase):
         driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
         assert self.is_element_present(By.CSS_SELECTOR, "img[alt=\"Save\"]") == True
 
-    def _test_addfilm(self):
+    def test_addfilm(self):
         driver = self.driver
-
-        # go home and test if a test film is present
-        driver.find_element_by_link_text("Home").click()
-        if driver.find_elements_by_css_selector("div.nocover[alt=\"Test film\"]"):
-            self.fail("Test film was found")
-
-        # insert a film  from imbd database and download the cover
         driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
-        driver.find_element_by_id("imdbsearch").clear()
-        driver.find_element_by_id("imdbsearch").send_keys("sun")
-        driver.find_element_by_css_selector("input[type=\"submit\"]").click()
-        driver.find_element_by_link_text(u"Солнце").click()
-        driver.find_element_by_name("notes").clear()
-        driver.find_element_by_name("notes").send_keys(u"Фильм Сокурова А.Н. Император Хирохито, Вторая Мировая война.")
-        driver.find_element_by_name("aka").clear()
-        driver.find_element_by_name("aka").send_keys(u"The Sun")
-        driver.find_element_by_id("own_no").click()
-        driver.find_element_by_id("seen_no").click()
-        driver.find_element_by_id("cover").send_keys("/home/bsam/selenium-py-training-samorodov/php4dvd/img/the_sun.jpg")
+        form = driver.find_element_by_id("updateform")
+        form.find_element_by_name("name").clear()
+        form.find_element_by_name("name").send_keys("Test film")
+        form.find_element_by_name("year").clear()
+        form.find_element_by_name("year").send_keys("1999")
         driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
+        assert self.is_element_present(By.CSS_SELECTOR, "img[alt=\"Own\"]") == True
 
     def is_element_present(self, how, what):
         try:
