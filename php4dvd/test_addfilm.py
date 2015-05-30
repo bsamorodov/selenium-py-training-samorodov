@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 import unittest
 
 
@@ -18,16 +19,18 @@ class AddFilm(unittest.TestCase):
         self.driver.find_element_by_name("password").send_keys("admin")
         self.driver.find_element_by_name("submit").click()
 
-    def test_addfilm(self):
+    def test_addfilm_without_year_field(self):
         driver = self.driver
-
-        # try to insert a film without a required field "year"
         driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
         form = driver.find_element_by_id("updateform")
         form.find_element_by_name("name").clear()
         form.find_element_by_name("name").send_keys("Test film")
         form.find_element_by_name("year").clear()
         driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
+        assert self.is_element_present(By.CSS_SELECTOR, "img[alt=\"Save\"]") == True
+
+    def _test_addfilm(self):
+        driver = self.driver
 
         # go home and test if a test film is present
         driver.find_element_by_link_text("Home").click()
