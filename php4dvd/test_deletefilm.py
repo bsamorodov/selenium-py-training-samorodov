@@ -4,7 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 import unittest
 
 
-class AddFilm(unittest.TestCase):
+class DeleteFilm(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(10)
@@ -12,7 +12,7 @@ class AddFilm(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_addfilm(self):
+    def test_deletefilm(self):
         driver = self.driver
         driver.get(self.base_url + "php4dvd/")
         driver.find_element_by_id("username").clear()
