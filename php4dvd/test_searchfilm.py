@@ -41,10 +41,7 @@ class searchFilm(unittest.TestCase):
         wait = WebDriverWait(driver, 10)
         wait.until(invisibility_of_element_located((By.ID, "loading")))
         results = driver.find_element_by_id("results")
-        if self.is_element_present(By.CLASS_NAME, "content"):
-            assert driver.find_element_by_class_name("content"
-                ).get_attribute("textContent") == "No movies where found."
-        else:
+        if not self.is_element_present(By.CLASS_NAME, "content"):
             self.fail("Movie found")
 
     def is_element_present(self, how, what):
