@@ -19,7 +19,7 @@ class AddFilm(unittest.TestCase):
         self.driver.find_element_by_name("password").send_keys("admin")
         self.driver.find_element_by_name("submit").click()
 
-    def test_addfilm_without_year_field(self):
+    def test_addfilm_without_year_field_set(self):
         driver = self.driver
         driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
         form = driver.find_element_by_id("updateform")
@@ -29,7 +29,7 @@ class AddFilm(unittest.TestCase):
         driver.find_element_by_css_selector("img[alt=\"Save\"]").click()
         assert self.is_element_present(By.CSS_SELECTOR, "img[alt=\"Save\"]") == True
 
-    def test_addfilm(self):
+    def test_addfilm_with_all_required_fields_set(self):
         driver = self.driver
         driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
         form = driver.find_element_by_id("updateform")
