@@ -1,7 +1,7 @@
 from selenium import webdriver
 import pytest
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def app(request):
     driver = webdriver.Firefox(capabilities={'native_events':True})
     driver.implicitly_wait(1))
