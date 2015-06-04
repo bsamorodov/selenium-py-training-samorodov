@@ -5,8 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium_fixture import driver
 
 def test_addfilm_without_year_field_set(driver):
-    driver.get("http://hub.wart.ru/php4dvd/")
-    login(driver, username, password)
+    login(driver, User.Admin())
     driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
     form = driver.find_element_by_id("updateform")
     form.find_element_by_name("name").clear()
@@ -17,8 +16,7 @@ def test_addfilm_without_year_field_set(driver):
     logout(driver))
 
 def test_addfilm_with_all_required_fields_set(driver):
-    driver.get("http://hub.wart.ru/php4dvd/")
-    login(driver, username, password)
+    login(driver, User.Admin())
     driver.find_element_by_css_selector("img[alt=\"Add movie\"]").click()
     form = driver.find_element_by_id("updateform")
     form.find_element_by_name("name").clear()
@@ -30,8 +28,7 @@ def test_addfilm_with_all_required_fields_set(driver):
     logout(driver))
 
 def test_deletefilm(driver):
-    driver.get("http://hub.wart.ru/php4dvd/")
-    login(driver, username, password)
+    login(driver, User.Admin())
     driver.find_element_by_css_selector(u"img[alt=\"Солнце\"]").click()
     driver.find_element_by_css_selector("img[alt=\"Remove\"]").click()
     assertRegexpMatches(close_alert_and_get_its_text(), r"^Are you sure you want to remove this[\s\S]$")
@@ -41,8 +38,7 @@ def test_deletefilm(driver):
     logout(driver))
 
 def test_search_existing_film(driver):
-    driver.get("http://hub.wart.ru/php4dvd/")
-    login(driver, username, password)
+    login(driver, User.Admin())
     driver.find_element_by_id("q").clear()
     driver.find_element_by_id("q").send_keys(u"вос")
     driver.find_element_by_id("q").send_keys(Keys.RETURN)
@@ -54,8 +50,7 @@ def test_search_existing_film(driver):
     logout(driver))
 
 def test_search_film_not_present(driver):
-    driver.get("http://hub.wart.ru/php4dvd/")
-    login(driver, username, password)
+    login(driver, User.Admin())
     driver.find_element_by_id("q").clear()
     driver.find_element_by_id("q").send_keys("Test film")
     driver.find_element_by_id("q").send_keys(Keys.RETURN)
@@ -66,11 +61,12 @@ def test_search_film_not_present(driver):
         fail("Movie found")
     logout(driver))
 
-def login(driver, username, password):
+def login(driver, user):
+    driver.get("http://hub.wart.ru/php4dvd/")
     driver.find_element_by_id("username").clear()
-    driver.find_element_by_id("username").send_keys(username)
+    driver.find_element_by_id("username").send_keys(user.username)
     driver.find_element_by_id("password").clear()
-    driver.find_element_by_id("password").send_keys(password)
+    driver.find_element_by_id("password").send_keys(user.password)
     driver.find_element_by_id("submit").click()
 
 def logout(driver):
