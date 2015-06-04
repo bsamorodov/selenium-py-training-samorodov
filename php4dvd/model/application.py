@@ -2,6 +2,7 @@ Class Application(object):
 
     def __init__(sefl, driver):
         self.driver = driver
+        self.wait = WebDriverWait(driver, 10)
 
     def go_to_homepage(self):
         self.driver.get("http://hub.wart.ru/php4dvd/")
