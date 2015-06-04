@@ -1,3 +1,4 @@
+from model.application import Application
 from selenium import webdriver
 import pytest
 
