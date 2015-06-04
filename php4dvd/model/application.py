@@ -1,6 +1,8 @@
-Class Application(object):
+from selenium import webdriver
 
-    def __init__(sefl, driver):
+class Application(object):
+
+    def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
 

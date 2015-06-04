@@ -1,4 +1,4 @@
-Class Keys(object):
+class Keys(object):
 
     def __init__(self, keys=None):
         self.keys = keys
