@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from model.user import User
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium_fixture import driver
+from selenium_fixture import app
 
 def test_addfilm_without_year_field_set(app):
     app.go_to_homepage())
